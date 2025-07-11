@@ -1,0 +1,188 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.2rem;
+}
+
+body {
+    background-image: url("../images/pink_background.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+h1 {
+    text-align: center;
+    background: linear-gradient(to right, rgb(76, 76, 213), rgb(236, 185, 89));
+    text-transform: capitalize;
+    margin-bottom: 25px;
+    opacity: 0.7;
+}
+
+#create-account-form {
+    width: 70%;
+    margin: 0 auto;
+    border: 2px solid black;
+    padding: 5px;
+}
+
+.messages ul {
+    list-style-type: none;
+    display: inline-block;
+}
+
+.messages ul li {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.messages ul li::before {
+    content: "🚩";
+}
+
+#create-account-form input:focus {
+    outline-color: rgb(0, 255, 170);
+    outline-width: 2px;
+    outline-offset: 2px;
+    outline-style: double;
+}
+
+.require {
+    color: red;
+}
+
+.main-labels {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    row-gap: 20px;
+}
+
+
+.main-labels input {
+    border-radius: 15px;
+    border-width: 0;
+    text-indent: 10px;
+}
+
+.password-labels {
+    position: relative;
+}
+
+.password-labels img {
+    cursor: pointer;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 10px;
+}
+
+#password-strength {
+    width: 100%;
+    display: none;
+    appearance: none;
+    -webkit-appearance: none;
+
+}
+
+#password-strength::-webkit-progress-bar {
+    background-color: gray;
+    border-radius: 25px;
+}
+
+#password-strength.red::-webkit-progress-value {
+    background-color: red;
+}
+
+#password-strength.orange::-webkit-progress-value {
+    background-color: orange;
+}
+
+#password-strength.yellow::-webkit-progress-value {
+    background-color: yellow;
+}
+
+#password-strength.light-green::-webkit-progress-value {
+    background-color: lightgreen;
+}
+
+#password-strength.green::-webkit-progress-value {
+    background-color: green;
+}
+
+.note {
+    margin-top: 50px;
+    color: rgba(196, 75, 75, 0.7);
+    margin-bottom: 10px;
+}
+
+hr {
+    margin-bottom: 20px;
+    border-style: solid;
+    color: blueviolet;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 40%);
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+
+.buttons a {
+    display: block;
+    background-color: white;
+    text-align: center;
+    border-radius: 15px;
+    border-width: 0;
+    text-decoration: none;
+    color: black;
+}
+
+button[type="submit"] {
+    cursor: pointer;
+    display: block;
+    width: 40%;
+    margin: 10px auto;
+    border-width: 0;
+    border-radius: 10px;
+}
+
+@media screen and (max-width:700px) {
+
+    body {
+        background-image: url("../images/pink_background_mobile.jpg");
+        background-size: cover;
+    }
+
+    #create-account-form {
+        width: 100%;
+    }
+
+    .main-labels {
+        grid-template-columns: 100%;
+        row-gap: 10px;
+    }
+
+    button[type="submit"] {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width:1000px) {
+    #create-account-form {
+        width: 90%;
+    }
+
+    .main-labels {
+        grid-template-columns: 30% 70%;
+        row-gap: 10px;
+    }
+
+    button[type="submit"] {
+        width: 70%;
+    }
+}

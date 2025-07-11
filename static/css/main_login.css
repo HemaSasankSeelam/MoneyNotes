@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.3rem;
+}
+
+body {
+    background-image: url("../images/pink_background.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+h1 {
+    text-align: center;
+    background: linear-gradient(to right, rgb(76, 76, 213), rgb(236, 185, 89));
+    text-transform: capitalize;
+    margin-bottom: 25px;
+    opacity: 0.7;
+}
+
+.messages ul {
+    list-style-type: none;
+    display: inline-block;
+}
+
+.messages ul li {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.messages ul li::before {
+    content: "🚩";
+}
+
+#login {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+
+    border-style: solid;
+    border-width: 1px;
+    width: 50%;
+    padding: 5px;
+    opacity: 0.7;
+}
+
+#login * {
+    margin-bottom: 10px;
+}
+
+#login input,
+#login button {
+    border-width: 0;
+}
+
+#login .main-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+#login .main-inputs input {
+    width: 100%;
+    border-radius: 25px;
+    text-align: center;
+}
+
+#login .main-inputs input:focus {
+    outline-color: rgb(0, 255, 170);
+    outline-width: 2px;
+    outline-offset: 2px;
+    outline-style: double;
+}
+
+.password-eye {
+    position: relative;
+}
+
+#eye {
+    cursor: pointer;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 10px;
+}
+
+hr {
+    margin-bottom: 50px;
+}
+
+.buttons {
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 45%);
+    justify-content: space-evenly;
+}
+
+.buttons a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 15px;
+    color: black;
+    align-content: center;
+}
+
+
+#login input[type="submit"] {
+    cursor: pointer;
+    width: 70%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.require {
+    color: red;
+}
+
+@media screen and (max-width:700px) {
+    body {
+        background-image: url("../images/pink_background_mobile.jpg");
+        background-size: cover;
+    }
+
+    #login {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width:1000px) {
+
+    #login {
+        width: 75%;
+    }
+}

@@ -1,0 +1,43 @@
+body {
+    background-image: url("../images/light_cave.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+form {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 15px 15px 2px rgba(0, 0, 0, 0.511);
+}
+
+.labels {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons button:first-child {
+    cursor: pointer;
+}
+
+.buttons button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 20%;
+    height: 20%;
+}
+
+@media screen and (max-width:700px) {
+    form {
+        width: 90%;
+    }
+
+}

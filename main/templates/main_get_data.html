@@ -1,0 +1,243 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block title %}
+Get Data
+{% endblock %}
+
+
+{% block content %}
+
+<fieldset>
+    <legend style="text-align: center;">filter options</legend>
+    <div id="aggregations">
+        <fieldset style="width: 15%; display: inline-block; text-align: center;">
+            <legend style="font-size: 0.7rem;">Total Income</legend>
+            <p id="income-para" style="font-size: 0.8rem;color: green;">{{total_income}}</p>
+        </fieldset>
+        <fieldset style="width: 15%; display: inline-block; text-align: center;">
+            <legend style="font-size: 0.7rem;">Grand Total</legend>
+            {% if grand_total >= 0 %}
+            <p id="total-para" style="font-size: 0.8rem; color: green;">{{grand_total_formate}}</p>
+            {% else %}
+            <p id="total-para" style="font-size: 0.8rem; color: red;">{{grand_total_formate}}</p>
+            {% endif %}
+        </fieldset>
+        <fieldset style="width: 15%; display: inline-block; text-align: center;">
+            <legend style="font-size: 0.7rem;">Total Expend</legend>
+            <p id="expenditure-para" style="font-size: 0.8rem;color: red;">{{total_expenditure}}</p>
+        </fieldset>
+
+    </div>
+    <form action="" method="get" enctype="multipart/form-data">
+        <div class="main-inputs">
+            <label for="from-date">From</label>
+            {% if from_date %}
+            <input type="date" name="from-date" id="from-date" value="{{from_date}}">
+            {% else %}
+            <input type="date" name="from-date" id="from-date">
+            {% endif %}
+            <label for="to-date">To</label>
+            {% if to_date %}
+            <input type="date" name="to-date" id="to-date" value="{{to_date}}">
+            {% else %}
+            <input type="date" name="to-date" id="to-date">
+            {% endif %}
+            <label for="sorting">Amount sort</label>
+            <div class="sorting-labels">
+                {% if sorting == 'asc' %}
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="asc" checked> Ascending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="desc"> Descending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="none"> None
+                </label>
+                {% elif sorting == 'desc' %}
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="asc"> Ascending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="desc" checked> Descending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="none"> None
+                </label>
+                {% elif sorting == 'none' %}
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="asc"> Ascending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="desc"> Descending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="none" checked> None
+                </label>
+                {% else %}
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="asc" checked> Ascending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="desc"> Descending
+                </label>
+                <label>
+                    <input type="radio" name="sorting" id="sorting" value="none" checked> None
+                </label>
+                {% endif %}
+
+            </div>
+            <label for="group-by">group-by</label>
+            <select name="group-by" id="group-by">
+                {% if group_by == "month" %}
+                <option value="none">none</option>
+                <option value="month" selected>month</option>
+                <option value="quarter">quarter</option>
+                <option value="year">year</option>
+                <option value="year-quarter">year & quarter</option>
+                {% elif group_by == "quarter" %}
+                <option value="none">none</option>
+                <option value="month">month</option>
+                <option value="quarter" selected>quarter</option>
+                <option value="year">year</option>
+                <option value="year-quarter">year & quarter</option>
+                {% elif group_by == "year" %}
+                <option value="none">none</option>
+                <option value="month">month</option>
+                <option value="quarter">quarter</option>
+                <option value="year" selected>year</option>
+                <option value="year-quarter">year & quarter</option>
+                {% elif group_by == "year-quarter" %}
+                <option value="none">none</option>
+                <option value="month">month</option>
+                <option value="quarter">quarter</option>
+                <option value="year">year</option>
+                <option value="year-quarter" selected>year & quarter</option>
+                {% else %}
+                <option value="none" selected>none</option>
+                <option value="month">month</option>
+                <option value="quarter">quarter</option>
+                <option value="year">year</option>
+                <option value="year-quarter">year & quarter</option>
+                {% endif %}
+            </select>
+            <label for="amt-type">Type</label>
+            <select name="amt-type" id="type">
+                <option value="none" selected>none</option>
+                {% if amt_type == "Income" %}
+                <option value="Income" selected>Income</option>
+                {% else %}
+                <option value="Income">Income</option>
+                {% endif %}
+
+                {% if amt_type == "Expenditure" %}
+                <option value="Expenditure" selected>Expenditure</option>
+                {% else %}
+                <option value="Expenditure">Expenditure</option>
+                {% endif %}
+            </select>
+        </div>
+        <div class="buttons">
+            <a href="{% url 'get_data' %}">Reset</a>
+            <button type="submit">Apply</button>
+        </div>
+    </form>
+</fieldset>
+<hr>
+<table>
+    <div popover="auto" id="pop">
+        Do you want to delete the record?
+        <div
+            style="display: grid; grid-template-columns: repeat(2,40%);column-gap: 5px ;justify-content: center; margin-top: 10px;">
+            <button popovertarget="pop" popovertargetaction="hidden" style="cursor: pointer;">cancel</button>
+            <button><a href="" id="confirm"
+                    style="display: block;color: black; text-decoration: none;">Confirm</a></button>
+        </div>
+    </div>
+    <thead>
+        {% if data_list_group_by_keys %}
+        <tr>
+            <th>S.NO</th>
+            {% for key in data_list_group_by_keys %}
+            <th>{{key}}</th>
+            {% endfor %}
+        </tr>
+        {% else %}
+        <tr>
+            <th>S.NO</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>description</th>
+            <th>Actions</th>
+        </tr>
+        {% endif %}
+    </thead>
+    <tbody>
+        {% if data_list_group_by_keys %}
+        {% for each_query in page %}
+        <tr>
+            <td>{{page.start_index|add:forloop.counter0}}</td>
+            <td>{{each_query.grouped_by}}</td>
+            <td style="color: green;">{{each_query.income}}</td>
+            <td style="color: red;">{{each_query.expenditure}}</td>
+            {% if each_query.grand_total >= 0 %}
+            <td style="color: green;">{{each_query.grand_total_formate}}</td>
+            {% else %}
+            <td style="color: red;">{{each_query.grand_total_formate}}</td>
+            {% endif %}
+        </tr>
+
+        {% endfor %}
+        {% else %}
+        {% for each_query in page %}
+        <tr>
+            <td>{{page.start_index|add:forloop.counter0}}</td>
+            <td class="date">{{each_query.date|date:"d-m-Y"}}</td>
+            {% if each_query.amount_type == 'Income' %}
+            <td style="color: green;">{{each_query.amount}}
+            </td>
+            {% else %}
+            <td style="color: red;">{{each_query.amount}}</td>
+            {% endif %}
+            <td>{{each_query.amount_type}}</td>
+            <td title="{{each_query.description}}" id="description">
+                {% if each_query.description|length > 80 %}
+                {{each_query.description|slice:80}}...
+                {% else %}
+                {{each_query.description}}
+                {% endif %}
+            </td>
+            <td>
+                <div id="actions">
+                    <button><a href="{% url 'update_record' each_query.id %}"
+                            style="text-decoration: none; color: black; display: block;">Update</a></button>
+                    <button popovertarget="pop" popovertargetaction="visible" onclick="onDeleteClick(this)"
+                        data-id="{{each_query.id}}">Delete</button>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+    </tbody>
+</table>
+<nav class="navigation-pages">
+    <button><a href="?page=1{{all_options}}">1</a></button>
+    {% if page.has_previous %}
+    <button><a href="?page={{page.previous_page_number}}{{all_options}}">&lt;</a></button>
+    {% else %}
+    <button disabled>&lt;</button>
+    {% endif %}
+    Page {{page.number}} of {{page.paginator.num_pages}}
+    {% if page.has_next %}
+    <button><a href="?page={{page.next_page_number}}{{all_options}}">&gt;</a></button>
+    {% else %}
+    <button disabled>Next</button>
+    {% endif %}
+    <button><a href="?page={{page.paginator.num_pages}}{{all_options}}">{{page.paginator.num_pages}}</a></button>
+</nav>
+<link rel="stylesheet" href="{% static 'css/main_get_data.css' %}">
+<script src="{% static 'js/main_get_data.js'%}"></script>
+<script src="{% static 'js/base2.js' %}"></script>
+{% endblock %}

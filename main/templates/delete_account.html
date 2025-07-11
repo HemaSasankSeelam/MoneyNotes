@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account</title>
+</head>
+
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>For deleting account</p>
+        <p>once you delete the account you can't get the data back</p>
+        <div class="labels">
+            <label for="text">
+                type <span style="color: red;">"Delete my account {{user_name}}"</span>
+            </label>
+            <br>
+            <input type="text" name="text" id="text" style="width: 50%; margin: 0 auto;" data-user-name="{{user_name}}"
+                onkeyup="onKeyUp(this)">
+        </div>
+        <br>
+        <br>
+        <div class="buttons">
+            <button type="button" onclick="history.back()">Go Back</button>
+            <button type="submit" disabled>Delete</button>
+        </div>
+        <br>
+    </form>
+
+    <link rel="stylesheet" href="{% static 'css/delete_account.css' %}">
+    <script>
+        function onKeyUp(element) {
+            let userName = element.dataset.userName;
+            if (element.value === `Delete my account ${userName}`) {
+                document.querySelector("button[type='submit']").disabled = false;
+                document.querySelector("button").style.cursor = "pointer"
+            }
+            else {
+                document.querySelector("button[type='submit']").disabled = true;
+                document.querySelector("button[type='submit']").style.cursor = "wait";
+            }
+        }
+
+    </script>
+</body>
+
+</html>

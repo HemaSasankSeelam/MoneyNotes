@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create account</title>
+
+</head>
+
+<body>
+    <h1>Create Account in Money notes</h1>
+    <form action="" id="create-account-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="messages">
+            <ul>
+                {% if messages %}
+                {% for message in messages %}
+                <li>{{message}}</li>
+                {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+        <div class="main-labels">
+            <label for="first-name">First name<span class="require">*</span></label>
+            {% if first_name %}
+            <input type="text" name="first-name" id="first-name" placeholder="Enter first name" value="{{first_name}}"
+                required>
+            {% else %}
+            <input type="text" name="first-name" id="first-name" placeholder="Enter first name" required>
+            {% endif %}
+
+            <label for="last-name">Last name</label>
+            {% if last_name %}
+            <input type="text" name="last-name" id="last-name" placeholder="Enter last name" value="{{last_name}}">
+            {% else %}
+            <input type="text" name="last-name" id="last-name" placeholder="Enter last name">
+            {% endif %}
+
+            <label for="user-name">Username<span class="require">*</span></label>
+            {% if user_name %}
+            <input type="text" name="user-name" id="user-name" placeholder="Enter user name" value="{{user_name}}"
+                required>
+            {% else %}
+            <input type="text" name="user-name" id="user-name" placeholder="Enter user name" required>
+            {% endif %}
+
+            <label for="email">Email<span class="require">*</span></label>
+            {% if email %}
+            <input type="email" name="email" id="email" pattern="[a-zA-Z0-9_\.]+@[a-zA-Z]+\.[a-z]{2,4}"
+                placeholder="Enter email" value="{{email}}" required>
+            {% else %}
+            <input type="email" name="email" id="email" pattern="[a-zA-Z0-9_\.]+@[a-zA-Z]+\.[a-z]{2,4}"
+                placeholder="Enter email" required>
+            {% endif %}
+
+            <label for="password">Password<span class="require">*</span></label>
+            <div class="password-labels">
+                {% if password1 %}
+                <input type="password" name="password1" id="password" style="width: 100%;"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{8,}" placeholder="Enter password"
+                    value="{{password1}}" required>
+                {% else %}
+                <input type="password" name="password1" id="password" style="width: 100%;"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{8,}" placeholder="Enter password"
+                    required>
+                {% endif %}
+                <img src="{% static 'images/icons8-invisible-48.png' %}" alt="" id="eye-1" class="eye-close"
+                    onclick="onEyeClick(this)" data-close-eye="{% static 'images/icons8-invisible-48.png' %}"
+                    data-open-eye="{% static '/images/icons8-eye-50.png' %}">
+            </div>
+            <div></div>
+            <div>
+                <progress id="password-strength" class="red" min="0" max="100"></progress>
+            </div>
+            <label for="re-enter-password">Re-enter password<span class="require">*</span></label>
+            <div class="password-labels">
+                {% if password2 %}
+                <input type="password" name="password2" id="re-enter-password" style="width: 100%;"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{8,}" placeholder="Re-enter password"
+                    value="{{password2}}" required>
+                {% else %}
+                <input type="password" name="password2" id="re-enter-password" style="width: 100%;"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{8,}" placeholder="Re-enter password"
+                    required>
+                {% endif %}
+
+                <img src="{% static 'images/icons8-invisible-48.png' %}" alt="" id="eye-2" class="eye-close"
+                    onclick="onEyeClick(this)" data-close-eye="{% static 'images/icons8-invisible-48.png' %}"
+                    data-open-eye="{% static '/images/icons8-eye-50.png' %}">
+            </div>
+        </div>
+        <div class="note">
+            <p>username not contains space</p>
+            <p>password must contains</p>
+            <p>one lower case alphabet</p>
+            <p>one upper case alphabet</p>
+            <p>one numeric digit</p>
+            <p>one special char in !@#$%^&*()_+ </p>
+            <p>password length min 8 chars </p>
+        </div>
+        <hr>
+        <div class="buttons">
+            <a href="{% url 'create_account' %}">Reset form</a>
+            <a href="{% url 'login_page' %}">Login</a>
+        </div>
+        <hr>
+        <input type="hidden" name="form-type" value="create-account">
+        <button type="submit">Submit</button>
+    </form>
+
+    <link rel="stylesheet" href="{% static 'css/main_create_account.css' %}">
+    <script src="{% static 'js/main_create_account.js' %}"></script>
+</body>
+
+</html>
