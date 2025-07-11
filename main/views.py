@@ -187,7 +187,10 @@ def verify_email(request:WSGIRequest,email):
     
     if query_set.exists() and query_set[0].delete_date_time > timezone.now():
         query_set = query_set[0]
-        query_set.delete() # deletes in the cached
+
+        if query_set.is_verified:
+            messages.success("Link already verified")
+            return redirect("login_page")
 
         first_name = query_set.first_name
         last_name = query_set.last_name
@@ -209,6 +212,10 @@ def verify_email(request:WSGIRequest,email):
         try:
             user.clean_fields()
             user.save()
+
+            query_set.is_verified = True
+            query_set.save() # saved in db
+
             messages.success(request, message="Created Account Successfully")
             return redirect(to="login_page")
         except Exception as e:

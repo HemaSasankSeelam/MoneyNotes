@@ -109,3 +109,4 @@ class EmailVerification(models.Model):
     password = models.CharField(verbose_name="password", blank=False,max_length=1000)
     created_date_time = models.DateTimeField(verbose_name="createdDateTime", default=timezone.now)
     delete_date_time = models.DateTimeField(verbose_name="deleteDateTime", default=get_delete_time)
+    is_verified = models.BooleanField(verbose_name="isVerified",default=False)
