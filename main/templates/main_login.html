@@ -18,7 +18,11 @@
             <ul>
                 {% if messages %}
                 {% for message in messages %}
-                <li>{{message}}</li>
+                {% if message.tags != 'success' %}
+                <li style="color: rgba(255, 255, 0, 0.8)">{{message}}</li>
+                {% else %}
+                <li style="color: rgba(0, 255, 0, 0.8);">{{message}}</li>
+                {% endif %}
                 {% endfor %}
                 {% endif %}
             </ul>

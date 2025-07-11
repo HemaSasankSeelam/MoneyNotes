@@ -196,6 +196,7 @@ def verify_email(request:WSGIRequest,email):
 
         if query_set.is_verified:
             messages.success(request, message="Link already verified")
+            messages.success(request, message="Created Account Successfully")
             return redirect("login_page")
         
         query_set.is_verified = True
@@ -450,7 +451,6 @@ def add_data(request:WSGIRequest):
 def get_data(request:WSGIRequest):
     data_list = {}   
 
-    print(request.session.items())
     user_name = request.session.get("user_name",False)
     if user_name:
         data_list["user_name"] = user_name

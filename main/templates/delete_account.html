@@ -36,7 +36,7 @@
             let userName = element.dataset.userName;
             if (element.value === `Delete my account ${userName}`) {
                 document.querySelector("button[type='submit']").disabled = false;
-                document.querySelector("button").style.cursor = "pointer"
+                document.querySelector("button[type='submit']").style.cursor = "pointer"
             }
             else {
                 document.querySelector("button[type='submit']").disabled = true;
