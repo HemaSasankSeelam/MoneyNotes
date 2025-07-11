@@ -19,6 +19,7 @@ admin.site.register(model_or_iterable=Notes, admin_class=NotesAdmin)
 
 
 class EmailVerificationAdmin(admin.ModelAdmin):
-    list_display = ["first_name","last_name","user_name","email","password","created_date_time","delete_date_time"]
+    list_display = ["first_name","last_name","user_name","email","password",
+                    "created_date_time","delete_date_time","is_verified"]
 
 admin.site.register(model_or_iterable=EmailVerification, admin_class=EmailVerificationAdmin)

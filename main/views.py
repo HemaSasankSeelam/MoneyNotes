@@ -82,9 +82,11 @@ def login_page(request:WSGIRequest):
         request.session.set_expiry(datetime.timedelta(days=7))
         request.session["is_login"] = True
         request.session["user_name"] = user_name
-        update_last_login(request)
-        login(request=request,user=user)
-        return redirect("get_data")
+        if update_last_login(request):
+            login(request=request,user=user)
+            return redirect("get_data")
+        else:
+            return redirect("login_page")
 
     return render(request=request,
                   template_name="main_login.html")
@@ -184,13 +186,20 @@ def delete_account(request:WSGIRequest):
 def verify_email(request:WSGIRequest,email):
     # before login verifying the email
     query_set = EmailVerification.objects.filter(email=email)
+
+    if not query_set.exists():
+        messages.success(request, message="Time Out! or No email Found")
+        return redirect(to="create_account")
     
-    if query_set.exists() and query_set[0].delete_date_time > timezone.now():
-        query_set = query_set[0]
+    query_set = query_set.last()
+    if query_set.delete_date_time > timezone.now():
 
         if query_set.is_verified:
-            messages.success("Link already verified")
+            messages.success(request, message="Link already verified")
             return redirect("login_page")
+        
+        query_set.is_verified = True
+        query_set.save() # saved in db
 
         first_name = query_set.first_name
         last_name = query_set.last_name
@@ -213,17 +222,13 @@ def verify_email(request:WSGIRequest,email):
             user.clean_fields()
             user.save()
 
-            query_set.is_verified = True
-            query_set.save() # saved in db
-
             messages.success(request, message="Created Account Successfully")
             return redirect(to="login_page")
         except Exception as e:
             messages.warning(request, message=e)
             return redirect(to="create_account")
 
-    messages.success(request, message="Time Out! or No email Found")
-    return redirect(to="create_account")
+    
 
 
 
@@ -362,7 +367,8 @@ def update_last_login(request:WSGIRequest):
         money_notes_user_obj.last_login = timezone.now()
         money_notes_user_obj.save()
         return True
-    except:
+    except Exception as e:
+        messages.error(request, e)
         request.session.clear()
         return False
 
@@ -444,6 +450,7 @@ def add_data(request:WSGIRequest):
 def get_data(request:WSGIRequest):
     data_list = {}   
 
+    print(request.session.items())
     user_name = request.session.get("user_name",False)
     if user_name:
         data_list["user_name"] = user_name
